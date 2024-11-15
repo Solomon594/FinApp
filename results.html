@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+    <title>Financial Ratios Analysis Results</title>
+</head>
+<body>
+    <h1>Financial Ratios Analysis Results</h1>
+
+    <table border="1">
+        <tr>
+            <th>Year</th>
+            {% for ratio_name in results.keys() %}
+                <th>{{ ratio_name }}</th>
+            {% endfor %}
+        </tr>
+        {% for year in results.values() | first %}
+            <tr>
+                <td>{{ year }}</td>
+                {% for ratio_name in results.keys() %}
+                    <td>{{ results[ratio_name].get(year, 'N/A') }}%</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Trend Charts</h2>
+    {% for ratio_name, chart_path in chart_paths.items() %}
+        <h3>{{ ratio_name }}</h3>
+        <img src="{{ chart_path }}" alt="{{ ratio_name }} chart">
+    {% endfor %}
+
+    {% if missing_data %}
+        <h3>Missing Data</h3>
+        <ul>
+            {% for item in missing_data %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
